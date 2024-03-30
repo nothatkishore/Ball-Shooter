@@ -90,7 +90,8 @@ function spawn_enemies()
 {
     setInterval(() =>
     {
-        const velocity = {x : 1, y : 1};
+        const angle = Math.atan2(canvas.height/2 - y, canvas.width/2 - x);
+        const velocity = {x : Math.cos(angle), y : Math.sin(angle)};
         const enemy = new Enemy(100, 100, 30, 'green', velocity);
         enemies.push(enemy);
     }, 1000)
