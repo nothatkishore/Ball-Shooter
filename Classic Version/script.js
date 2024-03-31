@@ -4,6 +4,7 @@ const score = document.querySelector('#score');
 
 const start_button = document.querySelector('#start');
 const full_element = document.querySelector('#container');
+const final_score = document.querySelector('#actual-score');
 
 let points = 0;
 
@@ -202,6 +203,8 @@ function animate()
         if(distance - p1.radius - enemy.radius < 1)
         {
             cancelAnimationFrame(animation_id);
+            final_score.innerHTML = points;
+            full_element.style.display = 'flex';
         }
 
         projectiles.forEach((projectile, pindex) =>
