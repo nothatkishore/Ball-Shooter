@@ -2,6 +2,8 @@ const canvas = document.querySelector('canvas');
 const context = canvas.getContext('2d');
 const score = document.querySelector('#score');
 
+const start_button = document.querySelector('#start');
+const full_element = document.querySelector('#container');
 
 let points = 0;
 
@@ -250,5 +252,10 @@ addEventListener('click', (event) =>
     projectiles.push(projectile);
 });
 
-spawn_enemies();
-animate();
+start_button.addEventListener('click', () =>
+{
+    spawn_enemies();
+    animate();
+    full_element.style.display = 'none';
+});
+
