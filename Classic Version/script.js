@@ -12,7 +12,7 @@ class Player
         this.x = canvas.width / 2;
         this.y = canvas.height / 2;
         this.radius = 30;
-        this.color = 'blue';
+        this.color = 'white';
     }
 
     draw() 
@@ -34,7 +34,7 @@ class Projectile
         this.x = x;
         this.y = y;
         this.radius = 10;
-        this.color = 'red';
+        this.color = 'white';
         this.velocity = velocity;
     }
 
@@ -54,15 +54,17 @@ class Projectile
     }
 }
 
+// 
+
 class Enemy 
 {
-    constructor(x, y, radius, velocity) 
+    constructor(x, y, radius, color, velocity) 
     {
         this.x = x;
         this.y = y;
         this.radius = radius;
         this.velocity = velocity;
-        this.color = 'green';
+        this.color = color;
     }
 
     draw() 
@@ -89,6 +91,8 @@ function spawn_enemies()
     {
         const radius = Math.random() * ((30 - 10) + 10) ;
 
+        const color = `hsl(${Math.random() * 360}, 50%, 50%)`;
+
         let x, y;
 
         if (Math.random() < 0.5) 
@@ -106,7 +110,7 @@ function spawn_enemies()
         const angle = Math.atan2(canvas.height / 2 - y, canvas.width / 2 - x);
         const velocity = { x: Math.cos(angle), y: Math.sin(angle) };
 
-        const enemy = new Enemy(x, y, radius, velocity);
+        const enemy = new Enemy(x, y, radius, color, velocity);
 
         enemies.push(enemy);
     }, 1000);
@@ -119,7 +123,8 @@ let animation_id;
 function animate() 
 {
     animation_id = requestAnimationFrame(animate);
-    context.clearRect(0, 0, canvas.width, canvas.height);
+    context.fillStyle = 'rgba(0,0,0,0.1)'
+    context.fillRect(0, 0, canvas.width, canvas.height);
     p1.draw();
     projectiles.forEach((projectile, index) => 
     {
@@ -166,7 +171,7 @@ addEventListener('click', (event) =>
 {
     console.log(projectiles);
     const angle = Math.atan2(event.clientY - canvas.height / 2, event.clientX - canvas.width / 2);
-    const velocity = { x: Math.cos(angle), y: Math.sin(angle) };
+    const velocity = { x: Math.cos(angle) * 5, y: Math.sin(angle) * 5 };
     const projectile = new Projectile(canvas.width / 2, canvas.height / 2, velocity);
     projectiles.push(projectile);
 });
