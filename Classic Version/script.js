@@ -1,5 +1,5 @@
+console.log(gsap);
 const canvas = document.querySelector('canvas');
-
 const context = canvas.getContext('2d');
 
 canvas.width = innerWidth;
@@ -89,7 +89,7 @@ function spawn_enemies()
 {
     setInterval(() => 
     {
-        const radius = Math.random() * ((30 - 10) + 10) ;
+        const radius = Math.random() * 30 ;
 
         const color = `hsl(${Math.random() * 360}, 50%, 50%)`;
 
@@ -113,7 +113,7 @@ function spawn_enemies()
         const enemy = new Enemy(x, y, radius, color, velocity);
 
         enemies.push(enemy);
-    }, 1000);
+    }, 2000);
 }
 
 const projectiles = [];
@@ -133,10 +133,8 @@ function animate()
         if(projectile.x + projectile.radius < 0 || projectile.x - projectile.radius < 0 
         || projectile.y + projectile.radius < 0 || projectile.y - projectile.radius < 0)
         {
-            setTimeout(()=>
-            {
-                projectiles.splice(index, 1);
-            }, 0);
+
+            projectiles.splice(index, 1);
         }
 
     });
@@ -157,11 +155,22 @@ function animate()
 
             if(distance - projectile.radius - enemy.radius < 1)
             {
-                setTimeout(() =>
+
+                if(enemy.radius - 10 > 5)
                 {
+                    gsap.to(enemy, {
+                        radius: enemy.radius - 10
+                    })
+
+                    // enemy.radius -= 10;
+                    projectiles.splice(pindex, 1);
+                }
+
+               else
+               {
                     enemies.splice(eindex, 1);
                     projectiles.splice(pindex, 1);
-                }, 0)
+               }
             }
         });
     });
