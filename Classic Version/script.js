@@ -30,7 +30,7 @@ class Player
     }
 }
 
-const p1 = new Player();
+let p1 = new Player();
 p1.draw();
 
 class Projectile 
@@ -125,7 +125,7 @@ class Particle
     }
 }
 
-const enemies = [];
+let enemies = [];
 
 function spawn_enemies() 
 {
@@ -158,8 +158,8 @@ function spawn_enemies()
     }, 2000);
 }
 
-const projectiles = [];
-const particles = [];
+let projectiles = [];
+let particles = [];
 
 let animation_id;
 
@@ -246,6 +246,17 @@ function animate()
     });
 }
 
+function init()
+{
+    projectiles = [];
+    particles = [];
+    enemies = [];
+    p1 = new Player();
+    p1.draw();
+    points = 0;
+    score.innerHTML = 0;
+}
+
 addEventListener('click', (event) => 
 {
     console.log(projectiles);
@@ -257,6 +268,7 @@ addEventListener('click', (event) =>
 
 start_button.addEventListener('click', () =>
 {
+    init();
     spawn_enemies();
     animate();
     full_element.style.display = 'none';
