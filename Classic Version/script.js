@@ -1,6 +1,9 @@
-console.log(gsap);
 const canvas = document.querySelector('canvas');
 const context = canvas.getContext('2d');
+const score = document.querySelector('#score');
+
+
+let points = 0;
 
 canvas.width = innerWidth;
 canvas.height = innerHeight;
@@ -208,7 +211,7 @@ function animate()
 
                 for(let i = 0 ; i < enemy.radius * 2 ; i++)
                 {
-                    part = new Particle(projectile.x, projectile.y, (enemy.radius)/8, enemy.color, {x : (Math.random() - 0.5)*6, y : (Math.random() - 0.5)*6})
+                    part = new Particle(projectile.x, projectile.y, (enemy.radius)/10, enemy.color, {x : (Math.random() - 0.5)*6, y : (Math.random() - 0.5)*6})
                     particles.push(part)
 
                 }
@@ -221,13 +224,18 @@ function animate()
 
                     // enemy.radius -= 10;
                     projectiles.splice(pindex, 1);
+                    points += 100;
+
                 }
 
                else
                {
                     enemies.splice(eindex, 1);
                     projectiles.splice(pindex, 1);
+                    points += 200;
                }
+
+               score.innerHTML = points;
             }
         });
     });
