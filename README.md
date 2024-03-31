@@ -1,3 +1,3 @@
 # Ball-Shooter
 
-**Motive** : Play it..you'll get.
+Try to beat my high score (17500) 
