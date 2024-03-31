@@ -87,7 +87,7 @@ function spawn_enemies()
 {
     setInterval(() => 
     {
-        const radius = Math.random() * 30 ;
+        const radius = Math.random() * ((30 - 10) + 10) ;
 
         let x, y;
 
@@ -115,9 +115,11 @@ function spawn_enemies()
 
 const projectiles = [];
 
+let animation_id;
+
 function animate() 
 {
-    requestAnimationFrame(animate);
+    animation_id = requestAnimationFrame(animate);
     context.clearRect(0, 0, canvas.width, canvas.height);
     p1.draw();
     projectiles.forEach((projectile) => 
@@ -125,9 +127,29 @@ function animate()
         projectile.update();
     });
 
-    enemies.forEach((enemy) => 
+    enemies.forEach((enemy, eindex) => 
     {
         enemy.update();
+
+        const distance = Math.hypot((p1.x - enemy.x), (p1.y - enemy.y));
+        if(distance - p1.radius - enemy.radius < 1)
+        {
+            cancelAnimationFrame(animation_id);
+        }
+
+        projectiles.forEach((projectile, pindex) =>
+        {
+            const distance = Math.hypot((projectile.x - enemy.x), (projectile.y - enemy.y));
+
+            if(distance - projectile.radius - enemy.radius < 1)
+            {
+                setTimeout(() =>
+                {
+                    enemies.splice(eindex, 1);
+                    projectiles.splice(pindex, 1);
+                }, 0)
+            }
+        });
     });
 }
 
