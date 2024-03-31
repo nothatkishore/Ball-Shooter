@@ -83,6 +83,42 @@ class Enemy
     }
 }
 
+const friction = 0.98;
+
+class Particle
+{
+    constructor(x, y, radius, color, velocity)
+    {
+        this.x = x;
+        this.y = y;
+        this.color = color;
+        this.radius = radius;
+        this.velocity = velocity;
+        this.alpha = 1;
+    }
+
+    draw()
+    {
+        context.save();
+        context.globalAlpha = this.alpha;
+        context.beginPath();
+        context.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
+        context.fillStyle = this.color;
+        context.fill();
+        context.restore();
+    }
+
+    update()
+    {
+        this.draw();
+        this.velocity.x *= friction;
+        this.velocity.y *= friction;
+        this.x += this.velocity.x;
+        this.y += this.velocity.y;
+        this.alpha -= 0.01;
+    }
+}
+
 const enemies = [];
 
 function spawn_enemies() 
@@ -117,6 +153,7 @@ function spawn_enemies()
 }
 
 const projectiles = [];
+const particles = [];
 
 let animation_id;
 
@@ -139,6 +176,19 @@ function animate()
 
     });
 
+    particles.forEach((particle, index) =>
+    {
+        if(particle.alpha <= 0)
+        {
+            particles.splice(index, 1);
+        }
+
+        else
+        {
+            particle.update();
+        }
+    })
+
     enemies.forEach((enemy, eindex) => 
     {
         enemy.update();
@@ -155,6 +205,13 @@ function animate()
 
             if(distance - projectile.radius - enemy.radius < 1)
             {
+
+                for(let i = 0 ; i < enemy.radius * 2 ; i++)
+                {
+                    part = new Particle(projectile.x, projectile.y, (enemy.radius)/8, enemy.color, {x : (Math.random() - 0.5)*6, y : (Math.random() - 0.5)*6})
+                    particles.push(part)
+
+                }
 
                 if(enemy.radius - 10 > 5)
                 {
